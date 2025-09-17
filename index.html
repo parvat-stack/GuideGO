@@ -1,0 +1,2113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuideGo - Tourism Made Simple</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Modern glassmorphism and brand style */
+        body, #landing-page {
+            background: linear-gradient(120deg, #e0e7ff 0%, #a5b4fc 50%, #f0fdfa 100%) !important;
+            position: relative;
+        }
+        .brand-modern {
+            color: #2563eb;
+            font-family: 'Montserrat', 'Poppins', sans-serif;
+            text-shadow: 0 4px 24px #2563eb22, 0 1px 0 #fff;
+            letter-spacing: 0.04em;
+            transition: text-shadow 0.2s, box-shadow 0.3s, color 0.2s;
+            position: relative;
+        }
+        .brand-modern:hover {
+            text-shadow: 0 8px 32px #2563eb44, 0 2px 0 #fff;
+        }
+        /* Neon effect for brand-modern when .neon-active is added */
+        .brand-modern.neon-active {
+            color: #38bdf8;
+            text-shadow:
+                0 0 8px #38bdf8,
+                0 0 16px #38bdf8,
+                0 0 32px #38bdf8,
+                0 1px 0 #fff;
+            box-shadow: 0 0 24px 4px #38bdf8aa;
+        }
+        .glass-card {
+            background: rgba(255,255,255,0.82);
+            box-shadow: 0 4px 32px 0 rgba(80, 120, 255, 0.10), 0 1.5px 8px 0 rgba(80, 120, 255, 0.08);
+            backdrop-filter: blur(22px) saturate(1.3);
+            border-radius: 2rem;
+            border: 1.5px solid rgba(120, 160, 255, 0.15);
+            transition: box-shadow 0.3s, background 0.3s, border 0.3s;
+        }
+        /* Tagline style for visibility */
+        .tagline {
+            background: none;
+            -webkit-background-clip: initial;
+            -webkit-text-fill-color: initial;
+            background-clip: initial;
+            color: #000;
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 0.03em;
+            text-shadow: none;
+            filter: none;
+            transition: color 0.2s, text-shadow 0.2s, background 0.2s;
+        }
+        .landing-dark .brand-modern, .landing-dark #brand-motion {
+            color: #60a5fa !important;
+            text-shadow: 0 2px 8px #60a5fa55, 0 1px 0 #fff !important;
+        }
+        .landing-dark .tagline {
+            background: none !important;
+            -webkit-background-clip: initial;
+            -webkit-text-fill-color: initial;
+            background-clip: initial;
+            color: #111827 !important;
+            text-shadow: none;
+            filter: none;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink {
+            0%, 50% { border-color: transparent; }
+            51%, 100% { border-color: #fbbf24; }
+        }
+        
+        .animate-slide-up {
+            animation: slideInUp 0.8s ease-out forwards;
+        }
+        
+        .animate-fade-scale {
+            animation: fadeInScale 0.6s ease-out forwards;
+        }
+        
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid #fbbf24;
+            white-space: nowrap;
+            animation: typewriter 2s steps(20) 1s forwards, blink 1s infinite;
+            width: 0;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .chat-message {
+            animation: slideInUp 0.3s ease-out;
+        }
+        
+        .booking-card {
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideInUp 0.5s ease-out forwards;
+        }
+        
+        .pulse-ring {
+            animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.33);
+            }
+            40%, 50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.2);
+            }
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        /* Balanced 3D brand name effect */
+        .motion-text, .animate-motion {
+            animation: motionBrand3D 2.2s cubic-bezier(.4,0,.2,1) infinite;
+            color: #2563eb;
+            text-shadow:
+                0 2px 8px #2563eb33,
+                0 6px 20px #60a5fa33,
+                0 1px 0 #fff,
+                2px 4px 0 #b6c7e3,
+                0 12px 24px #1e293b22;
+            letter-spacing: 0.04em;
+        }
+        @keyframes motionBrand3D {
+            0% {
+                transform: scale(1) translateY(0);
+                text-shadow:
+                    0 2px 8px #2563eb33,
+                    0 6px 20px #60a5fa33,
+                    0 1px 0 #fff,
+                    2px 4px 0 #b6c7e3,
+                    0 12px 24px #1e293b22;
+            }
+            50% {
+                transform: scale(1.06) translateY(-2px);
+                text-shadow:
+                    0 4px 16px #2563eb44,
+                    0 10px 32px #60a5fa44,
+                    0 2px 0 #fff,
+                    3px 8px 0 #b6c7e3,
+                    0 18px 36px #1e293b33;
+            }
+            100% {
+                transform: scale(1) translateY(0);
+                text-shadow:
+                    0 2px 8px #2563eb33,
+                    0 6px 20px #60a5fa33,
+                    0 1px 0 #fff,
+                    2px 4px 0 #b6c7e3,
+                    0 12px 24px #1e293b22;
+            }
+        }
+        /* Campus360-inspired dark mode for landing page only */
+        .landing-dark {
+            background: linear-gradient(135deg, #101a3c 0%, #1a237e 100%) !important;
+            color: #e3eafc !important;
+        }
+        .landing-dark nav {
+            background: rgba(18, 22, 34, 0.98) !important;
+            border-bottom: 1px solid #263159 !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .landing-dark .bg-white,
+        .landing-dark .bg-white\/80,
+        .landing-dark .bg-white\/90,
+        .landing-dark .rounded-2xl,
+        .landing-dark .rounded-3xl {
+            background: rgba(30, 41, 59, 0.96) !important;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.7) !important;
+            border: 1px solid #263159 !important;
+        }
+        .landing-dark .text-gray-700,
+        .landing-dark .text-gray-500,
+        .landing-dark .text-gray-600 {
+            color: #b6c7e3 !important;
+        }
+        .landing-dark .text-blue-700,
+        .landing-dark .text-blue-600 {
+            color: #60a5fa !important;
+        }
+        .landing-dark .btn,
+        .landing-dark button,
+        .landing-dark .px-6,
+        .landing-dark .py-3 {
+            background: linear-gradient(90deg, #2563eb 0%, #38bdf8 100%) !important;
+            color: #fff !important;
+            border: none !important;
+            box-shadow: 0 2px 8px #2563eb44 !important;
+        }
+        .landing-dark .btn:hover,
+        .landing-dark button:hover {
+            background: linear-gradient(90deg, #38bdf8 0%, #2563eb 100%) !important;
+            color: #fff !important;
+        }
+        .landing-dark .feature-icon {
+            color: #38bdf8 !important;
+            filter: drop-shadow(0 0 8px #38bdf8);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 overflow-x-hidden">
+    <!-- Landing Page -->
+    <div id="landing-page" class="min-h-screen relative overflow-hidden flex flex-col">
+    <!-- Landmark Illustration Background (theme.jpg) -->
+    <img src="theme5.svg" alt="World Landmarks" style="position:fixed; left:0; bottom:0; width:100vw; height:100vh; object-fit:contain; z-index:3; pointer-events:none; opacity:1; user-select:none;" draggable="false" />
+
+        <!-- Navigation Bar -->
+        <nav class="relative z-10 w-full bg-white/90 backdrop-blur-lg shadow-lg border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-20">
+                <div class="flex items-center space-x-4">
+                    <img src="https://img.icons8.com/emoji/48/000000/palm-tree-emoji.png" alt="Logo" class="h-10 w-10 animate-float">
+                    <span id="brand-motion" class="text-5xl font-extrabold text-blue-700 tracking-tight motion-text">GuideGo</span>
+                </div>
+                <div class="flex items-center space-x-8">
+                    <a href="#" onclick="showAbout()" class="text-gray-700 hover:text-blue-600 font-medium">ABOUT</a>
+                    <a href="#" onclick="showTouristLogin()" class="text-gray-700 hover:text-blue-600 font-medium">TOURIST</a>
+                    <a href="#" onclick="showGuideLogin()" class="text-gray-700 hover:text-blue-600 font-medium">GUIDE</a>
+                    <!-- Theme Togglebar -->
+                    <div class="flex items-center ml-6">
+                        <span class="mr-2 text-sm text-gray-500">Theme</span>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" value="" class="sr-only peer" id="theme-toggle" onchange="toggleLandingTheme()">
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-400 rounded-full peer dark:bg-gray-700 peer-checked:bg-blue-600 transition-all"></div>
+                            <span class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-all peer-checked:translate-x-5"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="relative z-10 flex flex-col items-center justify-center flex-1 text-center px-4 pt-16 pb-8">
+            <div class="mx-auto glass-card px-16 py-20 flex flex-col items-center max-w-2xl animate-fade-scale">
+                <span id="brand-motion-hero" class="brand-modern text-7xl font-extrabold tracking-wide mb-4 animate-motion" tabindex="0">GuideGo</span>
+                <span class="tagline mb-8 animate-slide-up" style="font-family: 'Montserrat', 'Poppins', sans-serif;">Tourism Made Simple</span>
+                <div class="flex space-x-6 mt-4">
+                    <button onclick="showTouristLogin()" class="px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-full font-bold text-xl shadow-xl hover:from-blue-600 hover:to-cyan-500 transition-all">Start Exploring</button>
+                </div>
+            </div>
+        </section>
+        
+    <script>
+        // Theme toggle for landing page only
+        function toggleLandingTheme() {
+            const landing = document.getElementById('landing-page');
+            if (document.getElementById('theme-toggle').checked) {
+                landing.classList.add('landing-dark');
+            } else {
+                landing.classList.remove('landing-dark');
+            }
+        }
+        // Dummy functions for navigation
+        function showAbout() { alert('About section coming soon!'); }
+        function showTouristLogin() { alert('Tourist login coming soon!'); }
+        function showGuideLogin() { alert('Guide login coming soon!'); }
+    </script>
+    <script>
+        // Theme toggle for landing page only
+        function toggleLandingTheme() {
+            const landing = document.getElementById('landing-page');
+            if (document.getElementById('theme-toggle').checked) {
+                landing.classList.add('landing-dark');
+            } else {
+                landing.classList.remove('landing-dark');
+            }
+        }
+        // Dummy functions for navigation
+        function showAbout() { alert('About section coming soon!'); }
+        function showTouristLogin() { alert('Tourist login coming soon!'); }
+        function showGuideLogin() { alert('Guide login coming soon!'); }
+    </script>
+
+        <!-- Why GuideGo Section -->
+        <section class="relative z-10 py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 py-12 rounded-[2.5rem] bg-white/90 backdrop-blur-2xl shadow-2xl border-4 border-blue-200">
+                <h2 class="text-5xl md:text-6xl font-extrabold text-blue-700 mb-6 text-center font-[Montserrat, Poppins, sans-serif] drop-shadow-lg tracking-wide">Why GuideGo?</h2>
+                <p class="text-xl text-blue-500 mb-12 text-center font-semibold">Discover a new way to travel with trusted local guides, instant bookings, and smart recommendations. GuideGo makes your journey seamless, safe, and memorable.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <!-- Card 1 -->
+                    <div class="bg-gradient-to-br from-blue-100 via-cyan-100 to-blue-200 rounded-3xl shadow-xl p-10 flex flex-col items-center hover:scale-105 transition-all border-2 border-blue-300">
+                        <img src="https://img.icons8.com/fluency/64/000000/robot-2.png" alt="AI" class="mb-6 drop-shadow-lg">
+                        <h3 class="text-2xl font-bold text-blue-700 mb-3 font-[Montserrat, Poppins, sans-serif]">AI-Powered Suggestions</h3>
+                        <p class="text-blue-600 text-center text-lg">Get personalized travel ideas and tips based on your interests and location.</p>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="bg-gradient-to-br from-blue-100 via-cyan-100 to-blue-200 rounded-3xl shadow-xl p-10 flex flex-col items-center hover:scale-105 transition-all border-2 border-blue-300">
+                        <img src="https://img.icons8.com/color/64/000000/globe-earth.png" alt="Guide" class="mb-6 drop-shadow-lg">
+                        <h3 class="text-2xl font-bold text-blue-700 mb-3 font-[Montserrat, Poppins, sans-serif]">Verified Local Guides</h3>
+                        <p class="text-blue-600 text-center text-lg">Connect with experienced guides for authentic, safe, and fun experiences.</p>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="bg-gradient-to-br from-blue-100 via-cyan-100 to-blue-200 rounded-3xl shadow-xl p-10 flex flex-col items-center hover:scale-105 transition-all border-2 border-blue-300">
+                        <img src="https://img.icons8.com/color/64/000000/flash-on.png" alt="Booking" class="mb-6 drop-shadow-lg">
+                        <h3 class="text-2xl font-bold text-blue-700 mb-3 font-[Montserrat, Poppins, sans-serif]">Instant Booking</h3>
+                        <p class="text-blue-600 text-center text-lg">Book guides instantly with real-time availability and secure payments.</p>
+                    </div>
+                    <!-- Card 4 -->
+                    <div class="bg-gradient-to-br from-blue-100 via-cyan-100 to-blue-200 rounded-3xl shadow-xl p-10 flex flex-col items-center hover:scale-105 transition-all border-2 border-blue-300">
+                        <img src="https://img.icons8.com/color/64/000000/partly-cloudy-day.png" alt="Weather" class="mb-6 drop-shadow-lg">
+                        <h3 class="text-2xl font-bold text-blue-700 mb-3 font-[Montserrat, Poppins, sans-serif]">Live Weather & Safety</h3>
+                        <p class="text-blue-600 text-center text-lg">Stay updated on travel conditions and get safety tips for your destination.</p>
+                    </div>
+                    <!-- Card 5 -->
+                    <div class="bg-gradient-to-br from-blue-100 via-cyan-100 to-blue-200 rounded-3xl shadow-xl p-10 flex flex-col items-center hover:scale-105 transition-all border-2 border-blue-300">
+                        <img src="https://img.icons8.com/color/64/000000/money-bag.png" alt="Rewards" class="mb-6 drop-shadow-lg">
+                        <h3 class="text-2xl font-bold text-blue-700 mb-3 font-[Montserrat, Poppins, sans-serif]">Rewards & Cashback</h3>
+                        <p class="text-blue-600 text-center text-lg">Earn points and cashback on every booking for future discounts.</p>
+                    </div>
+                    <!-- Card 6 -->
+                    <div class="bg-gradient-to-br from-blue-100 via-cyan-100 to-blue-200 rounded-3xl shadow-xl p-10 flex flex-col items-center hover:scale-105 transition-all border-2 border-blue-300">
+                        <img src="https://img.icons8.com/color/64/000000/camera.png" alt="Gallery" class="mb-6 drop-shadow-lg">
+                        <h3 class="text-2xl font-bold text-blue-700 mb-3 font-[Montserrat, Poppins, sans-serif]">Travel Gallery</h3>
+                        <p class="text-blue-600 text-center text-lg">Share your travel memories and inspire others in our vibrant community.</p>
+                    </div>
+                </div>
+            </div>
+        <!-- Market & Impact Section -->
+        <section class="relative z-10 py-16">
+            <div class="max-w-7xl mx-auto px-4 py-12">
+                <h2 class="text-5xl md:text-6xl font-extrabold text-blue-700 mb-6 text-center font-[Montserrat, Poppins, sans-serif] drop-shadow-lg tracking-wide">Market & Impact</h2>
+                <p class="text-xl text-blue-500 mb-12 text-center font-semibold">Transforming tourism across India</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <div class="rounded-3xl shadow-xl p-10 flex flex-col items-center bg-blue-50">
+                        <span class="text-5xl font-extrabold text-blue-600 mb-2">18</span>
+                        <span class="text-2xl font-bold text-blue-600 mb-2">Million+</span>
+                        <span class="text-lg text-blue-700 mb-2">International Tourists Annually</span>
+                    </div>
+                    <div class="rounded-3xl shadow-xl p-10 flex flex-col items-center bg-cyan-50">
+                        <span class="text-5xl font-extrabold text-teal-600 mb-2">1.5</span>
+                        <span class="text-2xl font-bold text-teal-600 mb-2">Billion+</span>
+                        <span class="text-lg text-teal-700 mb-2">Domestic Travelers</span>
+                    </div>
+                    <div class="rounded-3xl shadow-xl p-10 flex flex-col items-center bg-green-50">
+                        <span class="text-5xl font-extrabold text-green-600 mb-2">1,000</span>
+                        <span class="text-2xl font-bold text-green-600 mb-2">Thousands+</span>
+                        <span class="text-lg text-green-700 mb-2">Jobs Created for Local Guides</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- What Travelers Say Section -->
+        <section class="relative z-10 py-16">
+            <div class="max-w-7xl mx-auto px-4 py-12">
+                <h2 class="text-5xl md:text-6xl font-extrabold text-blue-700 mb-6 text-center font-[Montserrat, Poppins, sans-serif] drop-shadow-lg tracking-wide">What Travelers Say</h2>
+                <p class="text-xl text-blue-500 mb-12 text-center font-semibold">Real experiences from our community</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <div class="rounded-3xl shadow-xl p-10 bg-white flex flex-col items-start">
+                        <div class="flex items-center mb-4">
+                            <span class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-xl mr-3">S</span>
+                            <div>
+                                <span class="font-bold text-lg text-gray-900">Sarah Johnson</span><br>
+                                <span class="text-gray-500 text-sm">Tourist from USA</span>
+                            </div>
+                        </div>
+                        <div class="flex mb-2">
+                            <span class="text-yellow-400 text-xl mr-1">★</span><span class="text-yellow-400 text-xl mr-1">★</span><span class="text-yellow-400 text-xl mr-1">★</span><span class="text-yellow-400 text-xl mr-1">★</span><span class="text-yellow-400 text-xl">★</span>
+                        </div>
+                        <p class="text-gray-700 text-base">"Amazing experience! My guide Raj showed me hidden gems in Jaipur that I never would have found on my own."</p>
+                    </div>
+                    <div class="rounded-3xl shadow-xl p-10 bg-white flex flex-col items-start">
+                        <div class="flex items-center mb-4">
+                            <span class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center font-bold text-xl mr-3">M</span>
+                            <div>
+                                <span class="font-bold text-lg text-gray-900">Marco Silva</span><br>
+                                <span class="text-gray-500 text-sm">Tourist from Brazil</span>
+                            </div>
+                        </div>
+                        <div class="flex mb-2">
+                            <span class="text-yellow-400 text-xl mr-1">★</span><span class="text-yellow-400 text-xl mr-1">★</span><span class="text-yellow-400 text-xl mr-1">★</span><span class="text-yellow-400 text-xl mr-1">★</span><span class="text-yellow-400 text-xl">★</span>
+                        </div>
+                        <p class="text-gray-700 text-base">"GuideGo made my Kerala trip unforgettable. The booking process was so simple and my guide spoke perfect Portuguese!"</p>
+                    </div>
+                    <div class="rounded-3xl shadow-xl p-10 bg-white flex flex-col items-start">
+                        <div class="flex items-center mb-4">
+                            <span class="w-10 h-10 rounded-full bg-purple-500 text-white flex items-center justify-center font-bold text-xl mr-3">A</span>
+                            <div>
+                                <span class="font-bold text-lg text-gray-900">Akiko Tanaka</span><br>
+                                <span class="text-gray-500 text-sm">Tourist from Japan</span>
+                            </div>
+                        </div>
+                        <div class="flex mb-2">
+                            <span class="text-yellow-400 text-xl mr-1">★</span><span class="text-yellow-400 text-xl mr-1">★</span><span class="text-yellow-400 text-xl mr-1">★</span><span class="text-yellow-400 text-xl mr-1">★</span><span class="text-yellow-400 text-xl">★</span>
+                        </div>
+                        <p class="text-gray-700 text-base">"Professional service and authentic local insights. My guide in Goa was knowledgeable and friendly. Highly recommended!"</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Footer Section -->
+        <footer class="bg-[#181f2a] py-12 mt-12">
+            <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-start gap-8">
+                <div class="flex-1 mb-8 md:mb-0">
+                    <div class="flex items-center mb-4">
+                        <span class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-400 to-cyan-400 flex items-center justify-center text-white font-bold text-2xl mr-3">G</span>
+                        <span class="text-2xl font-bold text-white">GuideGo</span>
+                    </div>
+                    <p class="text-gray-300">Making tourism simple, one guide at a time.</p>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-white font-bold mb-4">Quick Links</h3>
+                    <ul class="text-gray-300 space-y-2">
+                        <li>About Us</li>
+                        <li>How It Works</li>
+                        <li>For Tourists</li>
+                        <li>For Guides</li>
+                    </ul>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-white font-bold mb-4">Support</h3>
+                    <ul class="text-gray-300 space-y-2">
+                        <li>FAQ</li>
+                        <li>Contact Us</li>
+                        <li>Terms of Service</li>
+                        <li>Privacy Policy</li>
+                    </ul>
+                </div>
+                    <div class="flex-1">
+                        <h3 class="text-white font-bold mb-4">Connect</h3>
+                        <div class="flex space-x-6">
+                            <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="Twitter">
+                                <span style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;background:#fff;border-radius:50%;box-shadow:0 2px 8px #0002;">
+                                    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/twitter.svg" alt="Twitter" style="width:24px;height:24px;filter:invert(18%) sepia(98%) saturate(749%) hue-rotate(180deg) brightness(1.2);" />
+                                </span>
+                            </a>
+                            <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">
+                                <span style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;background:#fff;border-radius:50%;box-shadow:0 2px 8px #0002;">
+                                    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram" style="width:24px;height:24px;filter:invert(18%) sepia(98%) saturate(749%) hue-rotate(315deg) brightness(1.2);" />
+                                </span>
+                            </a>
+                            <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook">
+                                <span style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;background:#fff;border-radius:50%;box-shadow:0 2px 8px #0002;">
+                                    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="Facebook" style="width:24px;height:24px;filter:invert(18%) sepia(98%) saturate(749%) hue-rotate(210deg) brightness(1.2);" />
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+            </div>
+            <div class="mt-8 text-center text-gray-500 text-sm">&copy; 2025 GuideGo. All rights reserved.</div>
+        </footer>
+        </section>
+    </div>
+
+    <!-- About Modal -->
+    <div id="about-modal" class="modal">
+        <div class="bg-white rounded-2xl p-8 max-w-2xl mx-4 max-h-[80vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">About GuideGo</h2>
+                <button onclick="closeModal('about-modal')" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="flex items-start space-x-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                        <span class="text-2xl">🤖</span>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 mb-2">AI-Powered Recommendations</h3>
+                        <p class="text-gray-600">Get personalized travel suggestions based on your location and preferences using advanced AI technology.</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-4">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                        <span class="text-2xl">👥</span>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 mb-2">Expert Local Guides</h3>
+                        <p class="text-gray-600">Connect with verified local guides who know the hidden gems and authentic experiences of their cities.</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-4">
+                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                        <span class="text-2xl">📱</span>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 mb-2">Easy Booking System</h3>
+                        <p class="text-gray-600">Book guides instantly with our Uber-like interface. Real-time tracking and seamless payment integration.</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-4">
+                    <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
+                        <span class="text-2xl">💰</span>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 mb-2">Cashback Rewards</h3>
+                        <p class="text-gray-600">Earn points on every booking that can be used as discounts on future trips. The more you explore, the more you save!</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-4">
+                    <div class="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center">
+                        <span class="text-2xl">📸</span>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 mb-2">Social Gallery</h3>
+                        <p class="text-gray-600">Share your travel experiences with our community. Upload photos, write reviews, and inspire other travelers.</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-4">
+                    <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+                        <span class="text-2xl">🏆</span>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 mb-2">Gamification & Badges</h3>
+                        <p class="text-gray-600">Unlock achievements and earn badges as you explore more destinations and complete challenges.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tourist Login Modal -->
+    <div id="tourist-login-modal" class="modal">
+        <div class="bg-white rounded-2xl p-8 max-w-md mx-4">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <span class="text-2xl">🧳</span>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900">Tourist Login</h2>
+                <p class="text-gray-600 mt-2">Welcome back, explorer!</p>
+            </div>
+            
+            <div id="tourist-login-form">
+                <form onsubmit="handleTouristLogin(event)">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                            <input type="text" id="tourist-username" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter your username">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                            <input type="password" id="tourist-password" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter your password">
+                        </div>
+                        <button type="submit" class="w-full py-3 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition-colors">
+                            Login
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="mt-6 text-center">
+                    <p class="text-gray-600">New to GuideGo?</p>
+                    <button onclick="showTouristRegister()" class="text-blue-600 font-medium hover:text-blue-700">Create Account</button>
+                </div>
+            </div>
+            
+            <div id="tourist-register-form" class="hidden">
+                <form onsubmit="handleTouristRegister(event)">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                            <input type="text" id="tourist-fullname" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter your full name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                            <input type="text" id="tourist-reg-username" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Choose a username">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                            <input type="email" id="tourist-email" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter your email">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                            <input type="password" id="tourist-reg-password" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Create a password">
+                        </div>
+                        <button type="submit" class="w-full py-3 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition-colors">
+                            Register
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="mt-6 text-center">
+                    <p class="text-gray-600">Already have an account?</p>
+                    <button onclick="showTouristLogin()" class="text-blue-600 font-medium hover:text-blue-700">Login</button>
+                </div>
+            </div>
+            
+            <button onclick="closeModal('tourist-login-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Guide Login Modal -->
+    <div id="guide-login-modal" class="modal">
+        <div class="bg-white rounded-2xl p-8 max-w-md mx-4">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <span class="text-2xl">👨‍🏫</span>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900">Guide Login</h2>
+                <p class="text-gray-600 mt-2">Welcome back, guide!</p>
+            </div>
+            
+            <div id="guide-login-form">
+                <form onsubmit="handleGuideLogin(event)">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                            <input type="text" id="guide-username" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="Enter your username">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                            <input type="password" id="guide-password" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="Enter your password">
+                        </div>
+                        <button type="submit" class="w-full py-3 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-colors">
+                            Login
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="mt-6 text-center">
+                    <p class="text-gray-600">New guide?</p>
+                    <button onclick="showGuideRegister()" class="text-green-600 font-medium hover:text-green-700">Join as Guide</button>
+                </div>
+            </div>
+            
+            <div id="guide-register-form" class="hidden">
+                <form onsubmit="handleGuideRegister(event)">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                            <input type="text" id="guide-fullname" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="Enter your full name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                            <input type="text" id="guide-reg-username" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="Choose a username">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">City</label>
+                            <input type="text" id="guide-city" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="Your city">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Experience (years)</label>
+                            <input type="number" id="guide-experience" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="Years of experience">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                            <input type="password" id="guide-reg-password" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="Create a password">
+                        </div>
+                        <button type="submit" class="w-full py-3 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-colors">
+                            Register as Guide
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="mt-6 text-center">
+                    <p class="text-gray-600">Already registered?</p>
+                    <button onclick="showGuideLogin()" class="text-green-600 font-medium hover:text-green-700">Login</button>
+                </div>
+            </div>
+            
+            <button onclick="closeModal('guide-login-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Tourist Dashboard -->
+    <div id="tourist-dashboard" class="hidden min-h-screen bg-gray-50">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 gradient-bg rounded-xl flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">G</span>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold text-gray-900">GuideGo</h1>
+                            <p class="text-xs text-gray-500">Tourism made simple</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm text-gray-600">Wallet:</span>
+                            <span class="font-bold text-green-600" id="wallet-balance">₹0</span>
+                        </div>
+                        <button onclick="logout()" class="text-gray-600 hover:text-gray-900">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="bg-white border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <nav class="flex space-x-8">
+                    <button onclick="showTouristTab('chat')" class="tourist-tab py-4 px-1 border-b-2 font-medium text-sm active" data-tab="chat">
+                        AI Assistant
+                    </button>
+                    <button onclick="showTouristTab('guides')" class="tourist-tab py-4 px-1 border-b-2 font-medium text-sm" data-tab="guides">
+                        Find Guides
+                    </button>
+                    <button onclick="showTouristTab('bookings')" class="tourist-tab py-4 px-1 border-b-2 font-medium text-sm" data-tab="bookings">
+                        My Bookings
+                    </button>
+                    <button onclick="showTouristTab('gallery')" class="tourist-tab py-4 px-1 border-b-2 font-medium text-sm" data-tab="gallery">
+                        Gallery
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Chat Tab -->
+        <div id="tourist-chat-tab" class="tourist-tab-content max-w-4xl mx-auto p-6">
+            <div class="bg-white rounded-2xl shadow-lg">
+                <div class="p-6 border-b">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                            <span class="text-white font-bold">AI</span>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-gray-900">Travel Assistant</h2>
+                            <p class="text-gray-600">Your personal AI guide</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="chat-messages" class="h-96 overflow-y-auto p-6 space-y-4">
+                    <!-- Messages will be added here -->
+                </div>
+                
+                <div class="p-6 border-t">
+                    <div class="flex space-x-3">
+                        <input type="text" id="chat-input" placeholder="Ask me anything about travel..." class="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent" onkeypress="handleChatKeyPress(event)">
+                        <button onclick="sendMessage()" class="px-6 py-3 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition-colors">
+                            Send
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Guides Tab -->
+        <div id="tourist-guides-tab" class="tourist-tab-content hidden max-w-7xl mx-auto p-6">
+            <!-- Filters -->
+            <div class="bg-white rounded-2xl p-6 mb-6 shadow-lg">
+                <h3 class="text-lg font-bold text-gray-900 mb-4">Find Your Perfect Guide</h3>
+                <div class="grid md:grid-cols-4 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Language</label>
+                        <select id="language-filter" onchange="filterGuides()" class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="">All Languages</option>
+                            <option value="English">English</option>
+                            <option value="Hindi">Hindi</option>
+                            <option value="Spanish">Spanish</option>
+                            <option value="French">French</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Price Range (per hour)</label>
+                        <select id="price-filter" onchange="filterGuides()" class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="">Any Price</option>
+                            <option value="0-500">₹0 - ₹500</option>
+                            <option value="500-1000">₹500 - ₹1000</option>
+                            <option value="1000-2000">₹1000 - ₹2000</option>
+                            <option value="2000+">₹2000+</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+                        <select id="gender-filter" onchange="filterGuides()" class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="">Any Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Experience</label>
+                        <select id="experience-filter" onchange="filterGuides()" class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="">Any Experience</option>
+                            <option value="1-2">1-2 years</option>
+                            <option value="3-5">3-5 years</option>
+                            <option value="5+">5+ years</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guides Grid -->
+            <div id="guides-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Guides will be populated here -->
+            </div>
+        </div>
+
+        <!-- Bookings Tab -->
+        <div id="tourist-bookings-tab" class="tourist-tab-content hidden max-w-7xl mx-auto p-6">
+            <div id="bookings-list">
+                <!-- Bookings will be populated here -->
+            </div>
+            <div id="no-bookings" class="text-center py-12">
+                <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-2xl">📅</span>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">No bookings yet</h3>
+                <p class="text-gray-500 mb-4">Start exploring and book your first guide!</p>
+                <button onclick="showTouristTab('guides')" class="px-6 py-3 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition-colors">
+                    Find Guides
+                </button>
+            </div>
+        </div>
+
+        <!-- Gallery Tab -->
+        <div id="tourist-gallery-tab" class="tourist-tab-content hidden max-w-7xl mx-auto p-6">
+            <div class="bg-white rounded-2xl p-6 mb-6 shadow-lg">
+                <h3 class="text-lg font-bold text-gray-900 mb-4">Share Your Experience</h3>
+                <div class="flex space-x-4">
+                    <input type="file" id="photo-upload" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
+                    <button onclick="document.getElementById('photo-upload').click()" class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                        Upload Photo
+                    </button>
+                    <input type="text" id="photo-comment" placeholder="Add a comment..." class="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    <button onclick="sharePhoto()" class="px-4 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors">
+                        Share
+                    </button>
+                </div>
+            </div>
+
+            <div id="gallery-posts" class="space-y-6">
+                <!-- Gallery posts will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Guide Dashboard -->
+    <div id="guide-dashboard" class="hidden min-h-screen bg-gray-50">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-green-600 rounded-xl flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">G</span>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold text-gray-900">GuideGo Guide</h1>
+                            <p class="text-xs text-gray-500">Guide Dashboard</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm text-gray-600">Earnings:</span>
+                            <span class="font-bold text-green-600" id="guide-earnings">₹0</span>
+                        </div>
+                        <button onclick="logout()" class="text-gray-600 hover:text-gray-900">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="bg-white border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <nav class="flex space-x-8">
+                    <button onclick="showGuideTab('dashboard')" class="guide-tab py-4 px-1 border-b-2 font-medium text-sm active" data-tab="dashboard">
+                        Dashboard
+                    </button>
+                    <button onclick="showGuideTab('orders')" class="guide-tab py-4 px-1 border-b-2 font-medium text-sm" data-tab="orders">
+                        Live Orders
+                    </button>
+                    <button onclick="showGuideTab('gamification')" class="guide-tab py-4 px-1 border-b-2 font-medium text-sm" data-tab="gamification">
+                        Achievements
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Dashboard Tab -->
+        <div id="guide-dashboard-tab" class="guide-tab-content max-w-7xl mx-auto p-6">
+            <div class="grid md:grid-cols-3 gap-6 mb-6">
+                <div class="bg-white rounded-2xl p-6 shadow-lg">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600">Total Trips</p>
+                            <p class="text-2xl font-bold text-gray-900" id="total-trips">0</p>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                            <span class="text-2xl">🗺️</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-6 shadow-lg">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600">Rating</p>
+                            <p class="text-2xl font-bold text-gray-900" id="guide-rating">4.8</p>
+                        </div>
+                        <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
+                            <span class="text-2xl">⭐</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-6 shadow-lg">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600">Working Hours</p>
+                            <p class="text-lg font-bold text-gray-900" id="working-hours">9 AM - 6 PM</p>
+                        </div>
+                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                            <span class="text-2xl">⏰</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                <h3 class="text-lg font-bold text-gray-900 mb-4">Update Working Hours</h3>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Start Time</label>
+                        <input type="time" id="start-time" value="09:00" class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">End Time</label>
+                        <input type="time" id="end-time" value="18:00" class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500">
+                    </div>
+                </div>
+                <button onclick="updateWorkingHours()" class="mt-4 px-6 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors">
+                    Update Hours
+                </button>
+            </div>
+        </div>
+
+        <!-- Orders Tab -->
+        <div id="guide-orders-tab" class="guide-tab-content hidden max-w-7xl mx-auto p-6">
+            <div class="bg-white rounded-2xl p-6 shadow-lg mb-6">
+                <h3 class="text-lg font-bold text-gray-900 mb-4">Live Booking Requests</h3>
+                <div id="live-orders">
+                    <!-- Live orders will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Gamification Tab -->
+        <div id="guide-gamification-tab" class="guide-tab-content hidden max-w-7xl mx-auto p-6">
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-2xl p-6 shadow-lg">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">Your Badges</h3>
+                    <div id="guide-badges" class="space-y-3">
+                        <!-- Badges will be populated here -->
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-6 shadow-lg">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">Leaderboard</h3>
+                    <div id="leaderboard" class="space-y-3">
+                        <!-- Leaderboard will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div id="booking-modal" class="modal">
+        <div class="bg-white rounded-2xl p-8 max-w-md mx-4 max-h-[80vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">Book Guide</h2>
+                <button onclick="closeModal('booking-modal')" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div id="booking-content">
+                <!-- Booking content will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Travel Prediction Modal -->
+    <div id="prediction-modal" class="modal">
+        <div class="bg-white rounded-2xl p-8 max-w-md mx-4">
+            <div class="text-center mb-6">
+                <div id="prediction-icon" class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <!-- Icon will be set by JavaScript -->
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900">Travel Prediction</h2>
+            </div>
+            
+            <div id="prediction-content" class="text-center">
+                <!-- Prediction content will be populated here -->
+            </div>
+            
+            <div class="mt-6 flex space-x-3">
+                <button onclick="closeModal('prediction-modal')" class="flex-1 py-3 border border-gray-200 text-gray-700 rounded-xl font-medium hover:bg-gray-50 transition-colors">
+                    Maybe Later
+                </button>
+                <button onclick="showBookGuides()" class="flex-1 py-3 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition-colors">
+                    Book Guide
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentUser = null;
+        let userType = null;
+        let chatMessages = [];
+        let userLocation = null;
+        let walletBalance = 0;
+        let guideEarnings = 0;
+        let bookings = [];
+        let galleryPosts = [];
+        let guides = [];
+        let liveOrders = [];
+
+        // Sample data
+        const sampleGuides = [
+            {
+                id: 1,
+                name: "Rajesh Kumar",
+                city: "Delhi",
+                gender: "Male",
+                experience: 5,
+                languages: ["English", "Hindi"],
+                price: 800,
+                rating: 4.8,
+                reviews: 156,
+                avatar: "👨‍🎓",
+                specialty: "Historical Tours"
+            },
+            {
+                id: 2,
+                name: "Priya Sharma",
+                city: "Mumbai",
+                gender: "Female",
+                experience: 3,
+                languages: ["English", "Hindi", "Marathi"],
+                price: 600,
+                rating: 4.9,
+                reviews: 203,
+                avatar: "👩‍🏫",
+                specialty: "Food Tours"
+            },
+            {
+                id: 3,
+                name: "Arjun Singh",
+                city: "Jaipur",
+                gender: "Male",
+                experience: 7,
+                languages: ["English", "Hindi"],
+                price: 1200,
+                rating: 4.7,
+                reviews: 89,
+                avatar: "🤴",
+                specialty: "Royal Heritage"
+            },
+            {
+                id: 4,
+                name: "Meera Nair",
+                city: "Kerala",
+                gender: "Female",
+                experience: 4,
+                languages: ["English", "Malayalam"],
+                price: 700,
+                rating: 4.8,
+                reviews: 134,
+                avatar: "👩‍🌾",
+                specialty: "Nature Tours"
+            },
+            {
+                id: 5,
+                name: "Vikram Gupta",
+                city: "Agra",
+                gender: "Male",
+                experience: 6,
+                languages: ["English", "Hindi"],
+                price: 900,
+                rating: 4.9,
+                reviews: 267,
+                avatar: "👨‍🏫",
+                specialty: "Taj Mahal Expert"
+            }
+        ];
+
+        const sampleDestinations = [
+            {
+                name: "Red Fort",
+                image: "🏰",
+                description: "Historic Mughal fortress and UNESCO World Heritage site",
+                significance: "Built by Emperor Shah Jahan in 1648, this red sandstone fortress served as the main residence of the Mughal emperors for nearly 200 years."
+            },
+            {
+                name: "Gateway of India",
+                image: "🏛️",
+                description: "Iconic arch monument overlooking the Arabian Sea",
+                significance: "Built in 1924 to commemorate the visit of King George V and Queen Mary, it's now a symbol of Mumbai's rich colonial heritage."
+            },
+            {
+                name: "Hawa Mahal",
+                image: "🏯",
+                description: "Palace of Winds with intricate pink sandstone architecture",
+                significance: "Constructed in 1799 by Maharaja Sawai Pratap Singh, this five-story palace allowed royal women to observe street festivals while remaining unseen."
+            }
+        ];
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            guides = [...sampleGuides];
+            loadSampleData();
+        });
+
+        // Modal functions
+        function showAbout() {
+            document.getElementById('about-modal').classList.add('show');
+        }
+
+        function showTouristLogin() {
+            document.getElementById('tourist-login-modal').classList.add('show');
+            document.getElementById('tourist-login-form').classList.remove('hidden');
+            document.getElementById('tourist-register-form').classList.add('hidden');
+        }
+
+        function showTouristRegister() {
+            document.getElementById('tourist-login-form').classList.add('hidden');
+            document.getElementById('tourist-register-form').classList.remove('hidden');
+        }
+
+        function showGuideLogin() {
+            document.getElementById('guide-login-modal').classList.add('show');
+            document.getElementById('guide-login-form').classList.remove('hidden');
+            document.getElementById('guide-register-form').classList.add('hidden');
+        }
+
+        function showGuideRegister() {
+            document.getElementById('guide-login-form').classList.add('hidden');
+            document.getElementById('guide-register-form').classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        // Authentication functions
+        function handleTouristLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('tourist-username').value;
+            const password = document.getElementById('tourist-password').value;
+            
+            // Simple validation (in real app, this would be server-side)
+            if (username && password) {
+                currentUser = { username, type: 'tourist' };
+                userType = 'tourist';
+                closeModal('tourist-login-modal');
+                showTouristDashboard();
+            }
+        }
+
+        function handleTouristRegister(event) {
+            event.preventDefault();
+            const fullname = document.getElementById('tourist-fullname').value;
+            const username = document.getElementById('tourist-reg-username').value;
+            const email = document.getElementById('tourist-email').value;
+            const password = document.getElementById('tourist-reg-password').value;
+            
+            if (fullname && username && email && password) {
+                currentUser = { username, fullname, email, type: 'tourist' };
+                userType = 'tourist';
+                closeModal('tourist-login-modal');
+                showTouristDashboard();
+                showNotification('Registration successful! Welcome to GuideGo!', 'success');
+            }
+        }
+
+        function handleGuideLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('guide-username').value;
+            const password = document.getElementById('guide-password').value;
+            
+            if (username && password) {
+                currentUser = { username, type: 'guide' };
+                userType = 'guide';
+                closeModal('guide-login-modal');
+                showGuideDashboard();
+            }
+        }
+
+        function handleGuideRegister(event) {
+            event.preventDefault();
+            const fullname = document.getElementById('guide-fullname').value;
+            const username = document.getElementById('guide-reg-username').value;
+            const city = document.getElementById('guide-city').value;
+            const experience = document.getElementById('guide-experience').value;
+            const password = document.getElementById('guide-reg-password').value;
+            
+            if (fullname && username && city && experience && password) {
+                currentUser = { username, fullname, city, experience, type: 'guide' };
+                userType = 'guide';
+                closeModal('guide-login-modal');
+                showGuideDashboard();
+                showNotification('Guide registration successful! Welcome to GuideGo!', 'success');
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            userType = null;
+            document.getElementById('tourist-dashboard').classList.add('hidden');
+            document.getElementById('guide-dashboard').classList.add('hidden');
+            document.getElementById('landing-page').classList.remove('hidden');
+        }
+
+        // Dashboard functions
+        function showTouristDashboard() {
+            document.getElementById('landing-page').classList.add('hidden');
+            document.getElementById('tourist-dashboard').classList.remove('hidden');
+            
+            // Initialize chat with greeting
+            setTimeout(() => {
+                addChatMessage(`Hi ${currentUser.username}! 👋 Welcome to GuideGo! I'm your AI travel assistant. Let me help you explore amazing places!`, 'ai');
+                
+                // Get user location and show recommendations
+                getUserLocation();
+            }, 1000);
+            
+            // Load wallet balance
+            document.getElementById('wallet-balance').textContent = `₹${walletBalance}`;
+        }
+
+        function showGuideDashboard() {
+            document.getElementById('landing-page').classList.add('hidden');
+            document.getElementById('guide-dashboard').classList.remove('hidden');
+            
+            // Update guide stats
+            document.getElementById('guide-earnings').textContent = `₹${guideEarnings}`;
+            loadGuideStats();
+            generateLiveOrders();
+        }
+
+        // Tab functions
+        function showTouristTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tourist-tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Show selected tab
+            document.getElementById(`tourist-${tabName}-tab`).classList.remove('hidden');
+            
+            // Update tab buttons
+            document.querySelectorAll('.tourist-tab').forEach(btn => {
+                btn.classList.remove('active', 'border-blue-500', 'text-blue-600');
+                btn.classList.add('border-transparent', 'text-gray-500');
+            });
+            
+            const activeBtn = document.querySelector(`[data-tab="${tabName}"]`);
+            activeBtn.classList.add('active', 'border-blue-500', 'text-blue-600');
+            activeBtn.classList.remove('border-transparent', 'text-gray-500');
+            
+            // Load tab-specific content
+            if (tabName === 'guides') {
+                loadGuides();
+            } else if (tabName === 'bookings') {
+                loadBookings();
+            } else if (tabName === 'gallery') {
+                loadGallery();
+            }
+        }
+
+        function showGuideTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.guide-tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Show selected tab
+            document.getElementById(`guide-${tabName}-tab`).classList.remove('hidden');
+            
+            // Update tab buttons
+            document.querySelectorAll('.guide-tab').forEach(btn => {
+                btn.classList.remove('active', 'border-green-500', 'text-green-600');
+                btn.classList.add('border-transparent', 'text-gray-500');
+            });
+            
+            const activeBtn = document.querySelector(`[data-tab="${tabName}"]`);
+            activeBtn.classList.add('active', 'border-green-500', 'text-green-600');
+            activeBtn.classList.remove('border-transparent', 'text-gray-500');
+            
+            // Load tab-specific content
+            if (tabName === 'orders') {
+                loadLiveOrders();
+            } else if (tabName === 'gamification') {
+                loadGamification();
+            }
+        }
+
+        // Chat functions
+               function addChatMessage(message, sender) {
+            const messagesContainer = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message flex ${sender === 'user' ? 'justify-end' : 'justify-start'}`;
+            
+            const messageBubble = document.createElement('div');
+            messageBubble.className = `max-w-xs lg:max-w-md px-4 py-2 rounded-2xl ${
+                sender === 'user' 
+                    ? 'bg-blue-600 text-white' 
+                    : 'bg-gray-100 text-gray-900'
+            }`;
+            messageBubble.textContent = message;
+            
+            messageDiv.appendChild(messageBubble);
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            addChatMessage(message, 'user');
+            input.value = '';
+            
+            // Process message and generate AI response
+            setTimeout(() => {
+                processAIMessage(message);
+            }, 1000);
+        }
+
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function processAIMessage(userMessage) {
+            const message = userMessage.toLowerCase();
+            
+            if (message.includes('weather')) {
+                const weather = getWeatherInfo();
+                addChatMessage(weather, 'ai');
+                
+                setTimeout(() => {
+                    showTravelPrediction();
+                }, 2000);
+            } else if (message.includes('food')) {
+                const food = getFoodRecommendations();
+                addChatMessage(food, 'ai');
+            } else if (message.includes('place') || message.includes('destination')) {
+                const places = getTopPlaces();
+                addChatMessage(places, 'ai');
+            } else {
+                // General responses
+                const responses = [
+                    "That's interesting! Would you like me to recommend some places to visit?",
+                    "I can help you find the best local guides for your trip. What type of experience are you looking for?",
+                    "Let me know if you'd like information about weather, food, or popular destinations!",
+                    "I'm here to make your travel planning easier. What would you like to explore?"
+                ];
+                const response = responses[Math.floor(Math.random() * responses.length)];
+                addChatMessage(response, 'ai');
+            }
+        }
+
+        // Location and recommendations
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        userLocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        
+                        // Simulate getting city name (in real app, use reverse geocoding)
+                        const cities = ['Delhi', 'Mumbai', 'Bangalore', 'Chennai', 'Kolkata', 'Hyderabad'];
+                        const userCity = cities[Math.floor(Math.random() * cities.length)];
+                        
+                        setTimeout(() => {
+                            const recommendations = getLocationBasedRecommendations(userCity);
+                            addChatMessage(recommendations, 'ai');
+                        }, 2000);
+                    },
+                    (error) => {
+                        // Fallback if location access denied
+                        setTimeout(() => {
+                            addChatMessage("I couldn't access your location, but I can still help you explore amazing places in India! What city are you interested in?", 'ai');
+                        }, 2000);
+                    }
+                );
+            }
+        }
+
+        function getLocationBasedRecommendations(city) {
+            const recommendations = {
+                'Delhi': ['Red Fort 🏰', 'India Gate 🏛️', 'Lotus Temple 🪷'],
+                'Mumbai': ['Gateway of India 🏛️', 'Marine Drive 🌊', 'Elephanta Caves 🏛️'],
+                'Bangalore': ['Lalbagh Garden 🌺', 'Bangalore Palace 🏰', 'Cubbon Park 🌳'],
+                'Chennai': ['Marina Beach 🏖️', 'Kapaleeshwarar Temple 🕉️', 'Fort St. George 🏰'],
+                'Kolkata': ['Victoria Memorial 🏛️', 'Howrah Bridge 🌉', 'Dakshineswar Temple 🕉️'],
+                'Hyderabad': ['Charminar 🕌', 'Golconda Fort 🏰', 'Hussain Sagar Lake 🏞️']
+            };
+            
+            const places = recommendations[city] || recommendations['Delhi'];
+            return `Based on your location in ${city}, here are the top 3 places I recommend:\n\n${places.join('\n')}\n\nWould you like to know about the weather or local food specialties?`;
+        }
+
+        function getWeatherInfo() {
+            const conditions = ['sunny ☀️', 'partly cloudy ⛅', 'cloudy ☁️'];
+            const condition = conditions[Math.floor(Math.random() * conditions.length)];
+            const temp = Math.floor(Math.random() * 15) + 20; // 20-35°C
+            
+            return `Today's weather: ${condition} with ${temp}°C. Perfect for exploring! The humidity is comfortable and there's a gentle breeze. Great day for outdoor activities!`;
+        }
+
+        function getFoodRecommendations() {
+            const foods = [
+                'Try the famous street food: Chaat, Samosas, and Jalebi! 🥘',
+                'Don\'t miss the local specialties: Biryani, Butter Chicken, and Kulfi! 🍛',
+                'Must-try dishes: Dosa, Idli, and Filter Coffee! ☕',
+                'Local favorites: Vada Pav, Pav Bhaji, and Falooda! 🍞'
+            ];
+            
+            return foods[Math.floor(Math.random() * foods.length)] + '\n\nI can connect you with food tour guides who know the best local spots!';
+        }
+
+        function getTopPlaces() {
+            return "Here are some amazing places to explore:\n\n🏰 Historical Sites: Red Fort, Taj Mahal, Qutub Minar\n🏛️ Cultural Spots: India Gate, Gateway of India, Charminar\n🌿 Nature: Lalbagh Garden, Marine Drive, Hussain Sagar\n\nWould you like detailed information about any of these places?";
+        }
+
+        function showTravelPrediction() {
+            const predictions = [
+                { status: 'good', message: 'Excellent day for travel! Weather is perfect and attractions are less crowded.', color: 'green', icon: '✅' },
+                { status: 'moderate', message: 'Good day for travel with some crowds expected. Plan accordingly!', color: 'yellow', icon: '⚠️' },
+                { status: 'bad', message: 'Consider rescheduling. Heavy crowds and weather conditions may affect your experience.', color: 'red', icon: '❌' }
+            ];
+            
+            const prediction = predictions[Math.floor(Math.random() * predictions.length)];
+            
+            document.getElementById('prediction-icon').className = `w-16 h-16 bg-${prediction.color}-100 rounded-2xl flex items-center justify-center mx-auto mb-4`;
+            document.getElementById('prediction-icon').innerHTML = `<span class="text-2xl">${prediction.icon}</span>`;
+            
+            document.getElementById('prediction-content').innerHTML = `
+                <h3 class="text-xl font-bold text-${prediction.color}-600 mb-2 capitalize">${prediction.status} Travel Day</h3>
+                <p class="text-gray-600">${prediction.message}</p>
+            `;
+            
+            document.getElementById('prediction-modal').classList.add('show');
+        }
+
+        function showBookGuides() {
+            closeModal('prediction-modal');
+            showTouristTab('guides');
+        }
+
+        // Guides functions
+        function loadGuides() {
+            const filteredGuides = filterGuidesData();
+            const guidesGrid = document.getElementById('guides-grid');
+            
+            guidesGrid.innerHTML = filteredGuides.map(guide => `
+                <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center text-2xl">
+                            ${guide.avatar}
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-gray-900">${guide.name}</h3>
+                            <p class="text-gray-600 text-sm">${guide.city}</p>
+                            <div class="flex items-center space-x-2 mt-1">
+                                <span class="text-yellow-500">⭐ ${guide.rating}</span>
+                                <span class="text-gray-500 text-sm">(${guide.reviews} reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2 mb-4">
+                        <p class="text-sm text-gray-600"><strong>Specialty:</strong> ${guide.specialty}</p>
+                        <p class="text-sm text-gray-600"><strong>Experience:</strong> ${guide.experience} years</p>
+                        <p class="text-sm text-gray-600"><strong>Languages:</strong> ${guide.languages.join(', ')}</p>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                        <span class="text-xl font-bold text-gray-900">₹${guide.price}/hr</span>
+                        <button onclick="openBookingModal(${guide.id})" class="px-6 py-2 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition-colors">
+                            Book Now
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterGuidesData() {
+            const language = document.getElementById('language-filter')?.value || '';
+            const priceRange = document.getElementById('price-filter')?.value || '';
+            const gender = document.getElementById('gender-filter')?.value || '';
+            const experience = document.getElementById('experience-filter')?.value || '';
+            
+            return guides.filter(guide => {
+                const matchesLanguage = !language || guide.languages.includes(language);
+                const matchesGender = !gender || guide.gender === gender;
+                
+                let matchesPrice = true;
+                if (priceRange) {
+                    if (priceRange === '0-500') matchesPrice = guide.price <= 500;
+                    else if (priceRange === '500-1000') matchesPrice = guide.price > 500 && guide.price <= 1000;
+                    else if (priceRange === '1000-2000') matchesPrice = guide.price > 1000 && guide.price <= 2000;
+                    else if (priceRange === '2000+') matchesPrice = guide.price > 2000;
+                }
+                
+                let matchesExperience = true;
+                if (experience) {
+                    if (experience === '1-2') matchesExperience = guide.experience >= 1 && guide.experience <= 2;
+                    else if (experience === '3-5') matchesExperience = guide.experience >= 3 && guide.experience <= 5;
+                    else if (experience === '5+') matchesExperience = guide.experience > 5;
+                }
+                
+                return matchesLanguage && matchesPrice && matchesGender && matchesExperience;
+            });
+        }
+
+        function filterGuides() {
+            loadGuides();
+        }
+
+        // Booking functions
+        function openBookingModal(guideId) {
+            const guide = guides.find(g => g.id === guideId);
+            const destination = sampleDestinations[Math.floor(Math.random() * sampleDestinations.length)];
+            
+            document.getElementById('booking-content').innerHTML = `
+                <div class="space-y-6">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center text-2xl">
+                            ${guide.avatar}
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900">${guide.name}</h3>
+                            <p class="text-gray-600">${guide.city} • ${guide.specialty}</p>
+                            <div class="flex items-center space-x-2 mt-1">
+                                <span class="text-yellow-500">⭐ ${guide.rating}</span>
+                                <span class="text-gray-500 text-sm">(${guide.reviews} reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-xl p-4">
+                        <div class="flex items-center space-x-3 mb-3">
+                            <span class="text-3xl">${destination.image}</span>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">${destination.name}</h4>
+                                <p class="text-sm text-gray-600">${destination.description}</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-700 bg-white p-3 rounded-lg">
+                            <strong>Historical Significance:</strong> ${destination.significance}
+                        </p>
+                    </div>
+                    
+                    <form onsubmit="confirmBooking(event, ${guideId})">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                                <input type="date" id="booking-date" required class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500" min="${new Date().toISOString().split('T')[0]}">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Time</label>
+                                <select id="booking-time" required class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Select time</option>
+                                    <option value="09:00">9:00 AM</option>
+                                    <option value="10:00">10:00 AM</option>
+                                    <option value="11:00">11:00 AM</option>
+                                    <option value="14:00">2:00 PM</option>
+                                    <option value="15:00">3:00 PM</option>
+                                    <option value="16:00">4:00 PM</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Duration</label>
+                                <select id="booking-duration" onchange="updateBookingTotal(${guide.price})" required class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Select duration</option>
+                                    <option value="2">2 hours</option>
+                                    <option value="3">3 hours</option>
+                                    <option value="4">4 hours</option>
+                                    <option value="6">6 hours</option>
+                                    <option value="8">Full day (8 hours)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="bg-blue-50 rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-gray-600">Rate per hour:</span>
+                                    <span class="font-medium">₹${guide.price}</span>
+                                </div>
+                                <div class="flex justify-between items-center text-lg font-bold">
+                                    <span>Total:</span>
+                                    <span id="booking-total">₹0</span>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="w-full py-3 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition-colors">
+                                Confirm Booking
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            
+            document.getElementById('booking-modal').classList.add('show');
+        }
+
+        function updateBookingTotal(pricePerHour) {
+            const duration = document.getElementById('booking-duration').value;
+            const total = duration ? pricePerHour * parseInt(duration) : 0;
+            document.getElementById('booking-total').textContent = `₹${total}`;
+        }
+
+        function confirmBooking(event, guideId) {
+            event.preventDefault();
+            
+            const guide = guides.find(g => g.id === guideId);
+            const date = document.getElementById('booking-date').value;
+            const time = document.getElementById('booking-time').value;
+            const duration = parseInt(document.getElementById('booking-duration').value);
+            const total = guide.price * duration;
+            
+            const booking = {
+                id: Date.now(),
+                guideId,
+                guideName: guide.name,
+                guideAvatar: guide.avatar,
+                date,
+                time,
+                duration,
+                total,
+                status: 'confirmed',
+                destination: sampleDestinations[Math.floor(Math.random() * sampleDestinations.length)]
+            };
+            
+            bookings.push(booking);
+            
+            // Add cashback points (10% of total)
+            const cashback = Math.floor(total * 0.1);
+            walletBalance += cashback;
+            document.getElementById('wallet-balance').textContent = `₹${walletBalance}`;
+            
+            closeModal('booking-modal');
+            showNotification(`Booking confirmed! You earned ₹${cashback} cashback points!`, 'success');
+            
+            // Add to guide's live orders
+            addLiveOrder(booking);
+        }
+
+        function loadBookings() {
+            const bookingsList = document.getElementById('bookings-list');
+            const noBookings = document.getElementById('no-bookings');
+            
+            if (bookings.length === 0) {
+                bookingsList.innerHTML = '';
+                noBookings.classList.remove('hidden');
+                return;
+            }
+            
+            noBookings.classList.add('hidden');
+            bookingsList.innerHTML = bookings.map(booking => `
+                <div class="booking-card bg-white rounded-2xl p-6 shadow-lg mb-4">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-xl">
+                                ${booking.guideAvatar}
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-900">${booking.guideName}</h3>
+                                <p class="text-gray-600 text-sm">${booking.destination.name}</p>
+                            </div>
+                        </div>
+                        <span class="px-3 py-1 bg-green-100 text-green-700 text-sm rounded-full font-medium">
+                            ${booking.status}
+                        </span>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 text-sm mb-4">
+                        <div>
+                            <span class="text-gray-500">Date:</span>
+                            <p class="font-medium">${booking.date}</p>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Time:</span>
+                            <p class="font-medium">${booking.time}</p>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Duration:</span>
+                            <p class="font-medium">${booking.duration} hours</p>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Total:</span>
+                            <p class="font-medium">₹${booking.total}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-lg p-3">
+                        <p class="text-sm text-gray-700">
+                            <strong>${booking.destination.name}:</strong> ${booking.destination.significance}
+                        </p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Gallery functions
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Store the image data (in real app, upload to server)
+                    window.tempPhotoData = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function sharePhoto() {
+            const comment = document.getElementById('photo-comment').value.trim();
+            if (!window.tempPhotoData || !comment) {
+                showNotification('Please select a photo and add a comment!', 'error');
+                return;
+            }
+            
+            const post = {
+                id: Date.now(),
+                user: currentUser.username,
+                image: window.tempPhotoData,
+                comment,
+                likes: Math.floor(Math.random() * 50),
+                timestamp: new Date().toLocaleDateString()
+            };
+            
+            galleryPosts.unshift(post);
+            document.getElementById('photo-comment').value = '';
+            window.tempPhotoData = null;
+            document.getElementById('photo-upload').value = '';
+            
+            loadGallery();
+            showNotification('Photo shared successfully!', 'success');
+        }
+
+        function loadGallery() {
+            const galleryContainer = document.getElementById('gallery-posts');
+            
+            if (galleryPosts.length === 0) {
+                galleryContainer.innerHTML = `
+                    <div class="text-center py-12">
+                        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl">📸</span>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">No photos yet</h3>
+                        <p class="text-gray-500">Share your travel experiences with the community!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            galleryContainer.innerHTML = galleryPosts.map(post => `
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                    <div class="p-4 border-b">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">${post.user[0].toUpperCase()}</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">${post.user}</h4>
+                                <p class="text-sm text-gray-500">${post.timestamp}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <img src="${post.image}" alt="Travel photo" class="w-full h-64 object-cover">
+                    
+                    <div class="p-4">
+                        <p class="text-gray-900 mb-3">${post.comment}</p>
+                        <div class="flex items-center space-x-4">
+                            <button onclick="likePost(${post.id})" class="flex items-center space-x-2 text-gray-600 hover:text-red-500 transition-colors">
+                                <span>❤️</span>
+                                <span>${post.likes}</span>
+                            </button>
+                            <button class="text-gray-600 hover:text-blue-500 transition-colors">
+                                💬 Comment
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function likePost(postId) {
+            const post = galleryPosts.find(p => p.id === postId);
+            if (post) {
+                post.likes++;
+                loadGallery();
+            }
+        }
+
+        // Guide functions
+        function loadGuideStats() {
+            document.getElementById('total-trips').textContent = Math.floor(Math.random() * 100) + 50;
+            document.getElementById('guide-rating').textContent = (4.5 + Math.random() * 0.5).toFixed(1);
+        }
+
+        function updateWorkingHours() {
+            const startTime = document.getElementById('start-time').value;
+            const endTime = document.getElementById('end-time').value;
+            
+            if (startTime && endTime) {
+                const start = new Date(`2000-01-01 ${startTime}`);
+                const end = new Date(`2000-01-01 ${endTime}`);
+                
+                const startFormatted = start.toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'});
+                const endFormatted = end.toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'});
+                
+                document.getElementById('working-hours').textContent = `${startFormatted} - ${endFormatted}`;
+                showNotification('Working hours updated successfully!', 'success');
+            }
+        }
+
+        function addLiveOrder(booking) {
+            liveOrders.unshift({
+                ...booking,
+                status: 'pending',
+                customerName: currentUser.username
+            });
+        }
+
+        function loadLiveOrders() {
+            const ordersContainer = document.getElementById('live-orders');
+            
+            if (liveOrders.length === 0) {
+                ordersContainer.innerHTML = `
+                    <div class="text-center py-8">
+                        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl">📋</span>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">No live orders</h3>
+                        <p class="text-gray-500">New booking requests will appear here</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            ordersContainer.innerHTML = liveOrders.map(order => `
+                <div class="bg-white border border-gray-200 rounded-xl p-4 mb-4">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h4 class="font-semibold text-gray-900">${order.customerName}</h4>
+                            <p class="text-gray-600 text-sm">${order.destination.name}</p>
+                        </div>
+                        <span class="px-3 py-1 bg-yellow-100 text-yellow-700 text-sm rounded-full">
+                            ${order.status}
+                        </span>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-3 text-sm mb-3">
+                        <div>
+                            <span class="text-gray-500">Date:</span>
+                            <p class="font-medium">${order.date}</p>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Time:</span>
+                            <p class="font-medium">${order.time}</p>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Duration:</span>
+                            <p class="font-medium">${order.duration}h</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-2">
+                        <button onclick="acceptOrder(${order.id})" class="flex-1 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors">
+                            Accept
+                        </button>
+                        <button onclick="rejectOrder(${order.id})" class="flex-1 py-2 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 transition-colors">
+                            Reject
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function acceptOrder(orderId) {
+            const order = liveOrders.find(o => o.id === orderId);
+            if (order) {
+                order.status = 'accepted';
+                guideEarnings += order.total;
+                document.getElementById('guide-earnings').textContent = `₹${guideEarnings}`;
+                loadLiveOrders();
+                showNotification('Order accepted! Customer has been notified.', 'success');
+            }
+        }
+
+        function rejectOrder(orderId) {
+            liveOrders = liveOrders.filter(o => o.id !== orderId);
+            loadLiveOrders();
+            showNotification('Order rejected.', 'info');
+        }
+
+        function generateLiveOrders() {
+            // Generate some sample orders for demo
+            const sampleOrders = [
+                {
+                    id: Date.now() + 1,
+                    customerName: 'Rahul Sharma',
+                    destination: sampleDestinations[0],
+                    date: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+                    time: '10:00',
+                    duration: 3,
+                    total: 2400,
+                    status: 'pending'
+                },
+                {
+                    id: Date.now() + 2,
+                    customerName: 'Priya Patel',
+                    destination: sampleDestinations[1],
+                    date: new Date(Date.now() + 172800000).toISOString().split('T')[0],
+                    time: '14:00',
+                    duration: 4,
+                    total: 3200,
+                    status: 'pending'
+                }
+            ];
+            
+            liveOrders = [...sampleOrders];
+        }
+
+        function loadGamification() {
+            const badges = [
+                { name: 'Top Rated', icon: '⭐', description: 'Maintain 4.8+ rating', earned: true },
+                { name: 'Century Club', icon: '💯', description: 'Complete 100 tours', earned: false },
+                { name: 'Early Bird', icon: '🌅', description: 'Start 50 tours before 9 AM', earned: true },
+                { name: 'Culture Expert', icon: '🏛️', description: 'Specialize in historical tours', earned: true },
+                { name: 'Foodie Guide', icon: '🍛', description: 'Complete 25 food tours', earned: false }
+            ];
+            
+            const badgesContainer = document.getElementById('guide-badges');
+            badgesContainer.innerHTML = badges.map(badge => `
+                <div class="flex items-center space-x-3 p-3 rounded-lg ${badge.earned ? 'bg-green-50 border border-green-200' : 'bg-gray-50 border border-gray-200'}">
+                    <span class="text-2xl ${badge.earned ? '' : 'grayscale opacity-50'}">${badge.icon}</span>
+                    <div>
+                        <h4 class="font-semibold ${badge.earned ? 'text-green-900' : 'text-gray-500'}">${badge.name}</h4>
+                        <p class="text-sm ${badge.earned ? 'text-green-700' : 'text-gray-500'}">${badge.description}</p>
+                    </div>
+                    ${badge.earned ? '<span class="text-green-600 font-bold">✓</span>' : ''}
+                </div>
+            `).join('');
+            
+            const leaderboard = [
+                { name: 'Rajesh Kumar', trips: 156, rating: 4.9 },
+                { name: 'Priya Sharma', trips: 143, rating: 4.8 },
+                { name: 'You', trips: 89, rating: 4.8 },
+                { name: 'Arjun Singh', trips: 76, rating: 4.7 },
+                { name: 'Meera Nair', trips: 65, rating: 4.9 }
+            ];
+            
+            const leaderboardContainer = document.getElementById('leaderboard');
+            leaderboardContainer.innerHTML = leaderboard.map((guide, index) => `
+                <div class="flex items-center justify-between p-3 rounded-lg ${guide.name === 'You' ? 'bg-blue-50 border border-blue-200' : 'bg-gray-50'}">
+                    <div class="flex items-center space-x-3">
+                        <span class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center font-bold text-sm">
+                            ${index + 1}
+                        </span>
+                        <div>
+                            <h4 class="font-semibold ${guide.name === 'You' ? 'text-blue-900' : 'text-gray-900'}">${guide.name}</h4>
+                            <p class="text-sm text-gray-600">${guide.trips} trips • ⭐ ${guide.rating}</p>
+                        </div>
+                    </div>
+                    ${index < 3 ? '<span class="text-2xl">' + ['🥇', '🥈', '🥉'][index] + '</span>' : ''}
+                </div>
+            `).join('');
+        }
+
+        // Utility functions
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification px-6 py-4 rounded-lg shadow-lg text-white font-medium`;
+            
+            const colors = {
+                success: 'bg-green-500',
+                error: 'bg-red-500',
+                info: 'bg-blue-500'
+            };
+            
+            notification.classList.add(colors[type]);
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        function loadSampleData() {
+            // Add some sample gallery posts
+            galleryPosts = [
+                {
+                    id: 1,
+                    user: 'traveler123',
+                    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzMzNzNkYyIvPjx0ZXh0IHg9IjIwMCIgeT0iMTUwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5UYWogTWFoYWwgVmlzaXQ8L3RleHQ+PC9zdmc+',
+                    comment: 'Amazing experience at the Taj Mahal! The guide was incredibly knowledgeable about Mughal history. 🕌',
+                    likes: 42,
+                    timestamp: '2 days ago'
+                },
+                {
+                    id: 2,
+                    user: 'explorer_raj',
+                    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iI2Y1OWU0MiIvPjx0ZXh0IHg9IjIwMCIgeT0iMTUwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TdHJlZXQgRm9vZCBUb3VyPC90ZXh0Pjwvc3ZnPg==',
+                    comment: 'Best street food tour in Delhi! Tried authentic chaat and kulfi. The local guide knew all the hidden gems! 🍛',
+                    likes: 38,
+                    timestamp: '1 week ago'
+                }
+            ];
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97e721cf464c8569',t:'MTc1Nzc2MTEzNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
